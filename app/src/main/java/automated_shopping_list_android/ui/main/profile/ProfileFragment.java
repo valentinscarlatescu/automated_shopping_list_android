@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -31,8 +30,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
 import automated_shopping_list_android.Constants;
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.ErrorHandler;
@@ -243,10 +241,9 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick(R.id.profileValidateButton)
-    void updateUser(){
+    void updateUser() {
         Activity activity = requireActivity();
 
-        user.gender = Gender.valueOf(genderTextView.getText().toString());
         user.firstName = firstNameEditText.getText().toString();
         user.lastName = lastNameEditText.getText().toString();
         Call<User> userCall = userService.updateProfile(user);
