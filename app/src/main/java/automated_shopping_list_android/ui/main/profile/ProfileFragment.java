@@ -243,7 +243,7 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.profileValidateButton)
     void updateUser() {
         Activity activity = requireActivity();
-
+        //
         user.firstName = firstNameEditText.getText().toString();
         user.lastName = lastNameEditText.getText().toString();
         Call<User> userCall = userService.updateProfile(user);
