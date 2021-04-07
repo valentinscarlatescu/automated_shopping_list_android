@@ -10,6 +10,9 @@ import retrofit2.http.PUT;
 
 public interface UserService {
 
+    @GET("/api/profile")
+    Call<User> getProfile();
+
     @PUT("/api/profile")
     Call<User> updateProfile(@Body User user);
 

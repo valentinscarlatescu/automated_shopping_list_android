@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import automated_shopping_list_android.Constants;
 import automated_shopping_list_android.net.client.adapter.GsonLocalDateAdapter;
 import automated_shopping_list_android.net.client.adapter.GsonLocalDateTimeAdapter;
+import automated_shopping_list_android.net.client.interceptor.AuthInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,6 +21,7 @@ public class RetrofitClient {
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.addInterceptor(new AuthInterceptor());
             OkHttpClient client = builder.build();
 
             GsonBuilder gsonBuilder = new GsonBuilder();

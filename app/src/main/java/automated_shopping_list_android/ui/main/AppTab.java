@@ -4,8 +4,7 @@ public enum AppTab {
 
     CART(0),
     SOCIAL(1),
-    ADMIN(2),
-    PROFILE(3);
+    PROFILE(2);
 
     private int index;
 
@@ -24,8 +23,6 @@ public enum AppTab {
             case 1:
                 return SOCIAL;
             case 2:
-                return ADMIN;
-            case 3:
                 return PROFILE;
         }
     }

@@ -24,10 +24,12 @@ import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.ErrorHandler;
 import automated_shopping_list_android.net.Session;
 import automated_shopping_list_android.net.client.RetrofitClient;
+import automated_shopping_list_android.net.model.Token;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.model.body.AuthLoginBody;
 import automated_shopping_list_android.net.model.body.AuthRegisterBody;
 import automated_shopping_list_android.net.service.AuthService;
+import automated_shopping_list_android.net.service.UserService;
 import automated_shopping_list_android.ui.common.ProgressDialog;
 import automated_shopping_list_android.ui.main.MainActivity;
 import butterknife.BindView;
@@ -50,6 +52,7 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
 
     private ViewPagerAdapter adapter;
     private AuthService authService = RetrofitClient.getRetrofitInstance().create(AuthService.class);
+    private UserService userService = RetrofitClient.getRetrofitInstance().create(UserService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,32 +91,52 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.show();
 
-        Call<User> userCall = authService.login(body);
-        userCall.enqueue(new Callback<User>() {
+        Call<Token> tokenCall = authService.login(body);
+        tokenCall.enqueue(new Callback<Token>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Token> call, Response<Token> response) {
 
                 if (response.isSuccessful()) {
-                    User user = response.body();
-                    Session.getInstance().setUser(user);
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString(Constants.USER_EMAIL, email);
-                    editor.putString(Constants.USER_PASSWORD, password);
-                    editor.apply();
+                    String token = response.body().token;
+                    Session.getInstance().setToken(token);
 
-                    Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    Call<User> userCall = userService.getProfile();
+                    userCall.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()) {
+                                User user = response.body();
+                                Session.getInstance().setUser(user);
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString(Constants.USER_EMAIL, email);
+                                editor.putString(Constants.USER_PASSWORD, password);
+                                editor.putString(Constants.USER_TOKEN, token);
+                                editor.apply();
+
+                                Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(AuthActivity.this, ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Toast.makeText(AuthActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(AuthActivity.this, ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
                 }
-                progressDialog.dismiss();
-
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Token> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(AuthActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -146,11 +169,12 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-                    User user = response.body();
+                    RegisterFragment registerFragment = (RegisterFragment) adapter.getItem(1);
+                    registerFragment.clearFields();
 
-                    Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    LoginFragment loginFragment = (LoginFragment) adapter.getItem(0);
+                    loginFragment.setFields(email, password);
+                    viewPager.setCurrentItem(0);
                 } else {
                     Toast.makeText(AuthActivity.this, ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
                 }

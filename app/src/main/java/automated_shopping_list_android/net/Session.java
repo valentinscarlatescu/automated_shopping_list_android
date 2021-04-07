@@ -8,17 +8,9 @@ public class Session {
 
     private static Session session;
 
-    private android.os.Handler handler = new Handler();
-
+    private Handler handler = new Handler();
     private User user;
-
-    public static Session getSession() {
-        return session;
-    }
-
-    public static void setSession(Session session) {
-        Session.session = session;
-    }
+    private String token;
 
     public Handler getHandler() {
         return handler;
@@ -34,6 +26,14 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public static Session getInstance() {

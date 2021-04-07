@@ -1,7 +1,6 @@
 package automated_shopping_list_android.ui.main;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.ArrayMap;
 
 import androidx.annotation.Nullable;
@@ -17,7 +16,6 @@ import java.util.stream.Stream;
 
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.ui.main.cart.CartTabFragment;
-import automated_shopping_list_android.ui.main.profile.ProfileFragment;
 import automated_shopping_list_android.ui.main.profile.ProfileTabFragment;
 import automated_shopping_list_android.ui.main.social.SocialTabFragment;
 import butterknife.BindView;
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     {
         fragments.put(AppTab.CART, new CartTabFragment());
         fragments.put(AppTab.SOCIAL, new SocialTabFragment());
-        fragments.put(AppTab.ADMIN, new CartTabFragment());
         fragments.put(AppTab.PROFILE, new ProfileTabFragment());
     }
 
@@ -57,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     if (appTab != AppTab.SOCIAL) {
                         openTab(AppTab.SOCIAL);
                         appTab = AppTab.SOCIAL;
-                    }
-                    break;
-                case R.id.mainMenuAdmin:
-                    if (appTab != AppTab.ADMIN) {
-                        openTab(AppTab.ADMIN);
-                        appTab = AppTab.ADMIN;
                     }
                     break;
                 case R.id.mainMenuProfile:

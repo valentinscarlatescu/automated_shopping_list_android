@@ -12,11 +12,6 @@
         android:title="@string/menu_item_social" />
 
     <item
-        android:id="@+id/mainMenuAdmin"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="@string/menu_item_admin" />
-
-    <item
         android:id="@+id/mainMenuProfile"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/menu_item_profile" />

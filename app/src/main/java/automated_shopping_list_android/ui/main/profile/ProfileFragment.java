@@ -186,15 +186,11 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
 
-                    SharedPreferences pref = activity.getApplicationContext().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.clear();
-                    editor.apply();
-
                     Intent intent = new Intent(activity, AuthActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     activity.finish();
+
                 } else {
                     Toast.makeText(activity, ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
                 }
@@ -234,8 +230,6 @@ public class ProfileFragment extends Fragment {
         genderTextView.setText(user.gender == null ? "" : getString(user.gender.getName()));
         joinDateTextView.setText(String.format(userJoinDateFormat, user.joinDateTime.format(dateTimeFormatter)));
 
-        LocalDate now = LocalDate.now();
-
         bitmap = null;
         cameraImageUri = null;
     }
@@ -243,7 +237,7 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.profileValidateButton)
     void updateUser() {
         Activity activity = requireActivity();
-        //
+
         user.firstName = firstNameEditText.getText().toString();
         user.lastName = lastNameEditText.getText().toString();
         Call<User> userCall = userService.updateProfile(user);
@@ -254,9 +248,7 @@ public class ProfileFragment extends Fragment {
 
                     Session.getInstance().setUser(user);
                     Toast.makeText(requireContext(), getString(R.string.message_success), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(activity, MainActivity.class);
-                    startActivity(intent);
-                    activity.finish();
+
                 }
             }
 

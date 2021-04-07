@@ -1,5 +1,6 @@
 package automated_shopping_list_android.net.service;
 
+import automated_shopping_list_android.net.model.Token;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.model.body.AuthLoginBody;
 import automated_shopping_list_android.net.model.body.AuthRegisterBody;
@@ -13,7 +14,7 @@ public interface AuthService {
     Call<User> register(@Body AuthRegisterBody body);
 
     @POST("/api/auth/login")
-    Call<User> login(@Body AuthLoginBody body);
+    Call<Token> login(@Body AuthLoginBody body);
 
     @POST("/api/auth/logout")
     Call<Void> logout();
