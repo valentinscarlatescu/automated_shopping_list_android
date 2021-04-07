@@ -205,6 +205,19 @@
                 android:textSize="@dimen/profile_text_size"
                 tools:text="Join date: 05/10/2020" />
 
+            <TextView
+                android:id="@+id/profileCartsNumberTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rectangle_radius_background"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textSize="@dimen/profile_text_size"
+                tools:text="Carts number: 23" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/profileLogoutButton"
                 android:layout_width="match_parent"

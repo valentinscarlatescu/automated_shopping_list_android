@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,7 +26,6 @@ import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -40,15 +38,16 @@ import automated_shopping_list_android.net.client.RetrofitClient;
 import automated_shopping_list_android.net.model.Gender;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.service.AuthService;
+import automated_shopping_list_android.net.service.FileService;
 import automated_shopping_list_android.net.service.UserService;
 import automated_shopping_list_android.ui.auth.AuthActivity;
 import automated_shopping_list_android.ui.common.ProgressDialog;
-import automated_shopping_list_android.ui.main.MainActivity;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,6 +72,8 @@ public class ProfileFragment extends Fragment {
     TextView genderTextView;
     @BindView(R.id.profileJoinDateTextView)
     TextView joinDateTextView;
+    @BindView(R.id.profileCartsNumberTextView)
+    TextView cartsNumberTextView;
 
     @BindString(R.string.profile_user_id)
     String userIdFormat;
@@ -82,6 +83,8 @@ public class ProfileFragment extends Fragment {
     String userPasswordFormat;
     @BindString(R.string.profile_user_join_date)
     String userJoinDateFormat;
+    @BindString(R.string.carts_number)
+    String cartsNumberFormat;
 
     private Unbinder unbinder;
     private User user = new User();
@@ -91,6 +94,8 @@ public class ProfileFragment extends Fragment {
     private static final int GALLERY_REQUEST = 1;
     private AuthService authService = RetrofitClient.getRetrofitInstance().create(AuthService.class);
     private UserService userService = RetrofitClient.getRetrofitInstance().create(UserService.class);
+    private FileService fileService = RetrofitClient.getRetrofitInstance().create(FileService.class);
+
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
 
@@ -229,6 +234,7 @@ public class ProfileFragment extends Fragment {
         lastNameEditText.setText(user.lastName);
         genderTextView.setText(user.gender == null ? "" : getString(user.gender.getName()));
         joinDateTextView.setText(String.format(userJoinDateFormat, user.joinDateTime.format(dateTimeFormatter)));
+        cartsNumberTextView.setText(String.format(cartsNumberFormat, user.cartsNumber == null ? "0" : user.cartsNumber));
 
         bitmap = null;
         cameraImageUri = null;
@@ -236,29 +242,58 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.profileValidateButton)
     void updateUser() {
-        Activity activity = requireActivity();
-
         user.firstName = firstNameEditText.getText().toString();
         user.lastName = lastNameEditText.getText().toString();
+
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.show();
+
+        if (bitmap == null) {
+            updateUser(progressDialog);
+        } else {
+            MultipartBody.Part part = FileService.getPartFromBitmap(bitmap, "user_");
+            Call<String> path = fileService.saveImage(part);
+            path.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        user.imagePath = response.body();
+                        updateUser(progressDialog);
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void updateUser(ProgressDialog progressDialog) {
         Call<User> userCall = userService.updateProfile(user);
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
-                    Session.getInstance().setUser(user);
-                    Toast.makeText(requireContext(), getString(R.string.message_success), Toast.LENGTH_SHORT).show();
-
+                    Session.getInstance().setUser(response.body());
+                    Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
                 }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     private void pickPicture() {
         Intent intent = new Intent(Intent.ACTION_PICK);

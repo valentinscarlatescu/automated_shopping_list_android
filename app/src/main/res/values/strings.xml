@@ -38,4 +38,6 @@
 
     <string name="message_success">Success</string>
 
+    <string name="carts_number">Carts number: %s</string>
+
 </resources>

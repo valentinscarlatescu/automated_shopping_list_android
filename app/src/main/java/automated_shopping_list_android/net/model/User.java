@@ -22,5 +22,7 @@ public class User {
     public LocalDateTime joinDateTime;
     @SerializedName("imagePath")
     public String imagePath;
+    @SerializedName("cartsNumber")
+    public Integer cartsNumber;
 
 }

@@ -9,11 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.auth0.android.jwt.JWT;
+import com.squareup.picasso.Picasso;
 
 import automated_shopping_list_android.Constants;
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.ErrorHandler;
 import automated_shopping_list_android.net.Session;
+import automated_shopping_list_android.net.client.PicassoClient;
 import automated_shopping_list_android.net.client.RetrofitClient;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.service.UserService;
