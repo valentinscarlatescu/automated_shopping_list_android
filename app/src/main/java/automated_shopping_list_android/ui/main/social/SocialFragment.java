@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +14,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.client.RetrofitClient;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.service.UserService;
+import automated_shopping_list_android.ui.main.MainActivity;
+import automated_shopping_list_android.ui.main.social.profile.SocialProfileFragment;
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,19 +30,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SocialFragment extends Fragment {
+public class SocialFragment extends Fragment implements UsersAdapter.UserClickListener {
 
-    private Unbinder unbinder;
-
+    @BindView(R.id.socialSearchView)
+    SearchView searchView;
     @BindView(R.id.socialRecyclerView)
     RecyclerView recyclerView;
 
     @BindDrawable(R.drawable.vertical_separator)
     Drawable separator;
 
-
+    private Unbinder unbinder;
+    private List<User> users;
     private UsersAdapter usersAdapter = new UsersAdapter();
-
     private UserService userService = RetrofitClient.getRetrofitInstance().create(UserService.class);
 
     @Nullable
@@ -57,13 +61,38 @@ public class SocialFragment extends Fragment {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
-                    usersAdapter.setUsers(response.body());
+                    SocialFragment.this.users = response.body();
+                    usersAdapter.setUsers(SocialFragment.this.users);
+                    usersAdapter.setOnUserClickListener(SocialFragment.this);
                 }
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
 
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText == null || newText.isEmpty()) {
+                    usersAdapter.setUsers(users);
+                } else {
+                    List<User> newUsers = users.stream()
+                            .filter(user -> user.firstName != null && user.lastName != null &&
+                                    (user.firstName.toLowerCase().contains(newText.toLowerCase()) ||
+                                            user.lastName.toLowerCase().contains(newText.toLowerCase())))
+                            .collect(Collectors.toList());
+                    usersAdapter.setUsers(newUsers);
+                }
+                usersAdapter.notifyDataSetChanged();
+                return true;
             }
         });
 
@@ -75,4 +104,12 @@ public class SocialFragment extends Fragment {
         super.onDestroy();
         unbinder.unbind();
     }
+
+    @Override
+    public void onUserClicked(User user) {
+        SocialProfileFragment fragment = new SocialProfileFragment();
+        fragment.setUser(user);
+        ((MainActivity) requireActivity()).setFragment(fragment);
+    }
+
 }

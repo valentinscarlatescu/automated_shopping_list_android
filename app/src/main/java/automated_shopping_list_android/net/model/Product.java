@@ -12,7 +12,11 @@ public class Product {
     public String name;
     @SerializedName("averagePrice")
     public Integer averagePrice;
+    @SerializedName("quantityType")
+    public QuantityType quantityType;
     @SerializedName("imagePath")
     public String imagePath;
+    @SerializedName("cartsNumber")
+    public int cartsNumber;
 
 }

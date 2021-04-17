@@ -2,6 +2,7 @@ package automated_shopping_list_android.ui.main;
 
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import automated_shopping_list_android.R;
+import automated_shopping_list_android.net.Session;
 import automated_shopping_list_android.ui.main.cart.CartTabFragment;
 import automated_shopping_list_android.ui.main.profile.ProfileTabFragment;
 import automated_shopping_list_android.ui.main.social.SocialTabFragment;
@@ -23,8 +25,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean isTwiceClicked;
     private AppTab appTab = AppTab.CART;
-
     private Map<AppTab, TabFragment> fragments = new ArrayMap<>(4);
 
     {
@@ -81,6 +83,23 @@ public class MainActivity extends AppCompatActivity {
             ft.show(activeFragment);
             ft.commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        for (int i = 0; i < getSupportFragmentManager().getFragments().size(); i++) {
+            Fragment fragment = getSupportFragmentManager().getFragments().get(i);
+            if (fragment.isVisible() && fragment.getChildFragmentManager().getBackStackEntryCount() > 1) {
+                ((TabFragment) fragment).onBackClicked();
+                return;
+            }
+        }
+        if (isTwiceClicked) {
+            finishAffinity();
+        }
+        Toast.makeText(this, getString(R.string.message_back_twice), Toast.LENGTH_SHORT).show();
+        Session.getInstance().getHandler().postDelayed(() -> isTwiceClicked = false, 3000);
+        isTwiceClicked = true;
     }
 
     public void setFragment(Fragment fragment) {

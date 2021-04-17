@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
     private List<User> users;
+    private UserClickListener listener;
 
     @NonNull
     @Override
@@ -35,6 +36,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         holder.lastNameTextView.setText(user.lastName);
         holder.cartsNumberTextView.setText(String.valueOf(user.cartsNumber));
         ImageHandler.loadImage(holder.photoImageView, user.imagePath, holder.itemView.getContext().getDrawable(R.drawable.item_placeholder_padding));
+
+        if (listener != null) {
+            holder.itemView.setOnClickListener(v -> listener.onUserClicked(user));
+        }
     }
 
     @Override
@@ -44,6 +49,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public void setOnUserClickListener(UserClickListener listener) {
+        this.listener = listener;
     }
 
     class UserViewHolder extends RecyclerView.ViewHolder {
@@ -62,4 +71,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
             ButterKnife.bind(this, itemView);
         }
     }
+
+    interface UserClickListener {
+        void onUserClicked(User user);
+    }
+
 }

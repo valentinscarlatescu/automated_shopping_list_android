@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface CartService {
 
-    @GET("/api/users")
+    @GET("/api/carts")
     Call<List<Cart>> getByUserId(@Query("userId") Long userId);
 
 }

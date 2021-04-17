@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 
 import automated_shopping_list_android.Constants;
 import automated_shopping_list_android.R;
@@ -35,13 +36,17 @@ import automated_shopping_list_android.net.ErrorHandler;
 import automated_shopping_list_android.net.ImageHandler;
 import automated_shopping_list_android.net.Session;
 import automated_shopping_list_android.net.client.RetrofitClient;
+import automated_shopping_list_android.net.model.Cart;
 import automated_shopping_list_android.net.model.Gender;
 import automated_shopping_list_android.net.model.User;
 import automated_shopping_list_android.net.service.AuthService;
+import automated_shopping_list_android.net.service.CartService;
 import automated_shopping_list_android.net.service.FileService;
 import automated_shopping_list_android.net.service.UserService;
 import automated_shopping_list_android.ui.auth.AuthActivity;
 import automated_shopping_list_android.ui.common.ProgressDialog;
+import automated_shopping_list_android.ui.main.MainActivity;
+import automated_shopping_list_android.ui.main.common.cart.ProfileCartsFragment;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,6 +100,7 @@ public class ProfileFragment extends Fragment {
     private AuthService authService = RetrofitClient.getRetrofitInstance().create(AuthService.class);
     private UserService userService = RetrofitClient.getRetrofitInstance().create(UserService.class);
     private FileService fileService = RetrofitClient.getRetrofitInstance().create(FileService.class);
+    private CartService cartService = RetrofitClient.getRetrofitInstance().create(CartService.class);
 
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
@@ -105,6 +111,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        init();
+
         return view;
     }
 
@@ -209,6 +218,32 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    @OnClick(R.id.profileViewCartsButton)
+    void onViewCartsClicked() {
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.show();
+
+        cartService.getByUserId(user.id).enqueue(new Callback<List<Cart>>() {
+            @Override
+            public void onResponse(Call<List<Cart>> call, Response<List<Cart>> response) {
+                if (response.isSuccessful()) {
+                    ProfileCartsFragment fragment = new ProfileCartsFragment();
+                    fragment.setCarts(response.body());
+                    ((MainActivity) requireActivity()).setFragment(fragment);
+                } else {
+                    Toast.makeText(getContext(), ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<List<Cart>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     void init() {

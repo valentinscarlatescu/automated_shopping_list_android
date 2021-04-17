@@ -3,6 +3,7 @@ package automated_shopping_list_android.net.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public class Cart {
@@ -12,10 +13,10 @@ public class Cart {
     @SerializedName("user")
     public User user;
     @SerializedName("cartProducts")
-    public Set<Product> cartProducts;
+    public List<Product> cartProducts;
     @SerializedName("dateTime")
     public LocalDateTime dateTime;
-    @SerializedName("quantity")
-    public Long quantity;
+    @SerializedName("productsNumber")
+    public Integer productsNumber;
 
 }
