@@ -12,4 +12,6 @@
     <dimen name="item_user_carts_number_text_size">14sp</dimen>
     <dimen name="item_cart_products_number_text_size">14sp</dimen>
     <dimen name="item_profile_cart_text_size">16sp</dimen>
+    <dimen name="item_cart_count_text_size">12sp</dimen>
+    <dimen name="item_cart_text_size">20sp</dimen>
 </resources>

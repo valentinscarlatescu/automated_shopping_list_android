@@ -45,5 +45,7 @@
     <string name="product_category">Category: %s</string>
     <string name="product_carts_number">Preferred in: %s carts</string>
     <string name="product_name">Name: %s</string>
+    <string name="home_header">Add a popular product to your cart!</string>
+    <string name="most_popular_products">Most popular products</string>
 
 </resources>

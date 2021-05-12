@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:id="@+id/testCartTextView"
-        android:text="Test cart"
-        android:textSize="30sp"
+        android:id="@+id/homeHeaderTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:singleLine="true"
+        android:text="@string/home_header"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeCartRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/homeHeaderTextView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_category_cart" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/viewProfileCartButton"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:backgroundTint="@android:color/white"
+            android:src="@drawable/item_cart"
+            android:tint="@color/colorPrimary"
+            app:fabCustomSize="@dimen/fab_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="@dimen/fab_image_size" />
+
+        <TextView
+            android:id="@+id/viewProductsCounter"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/round_item_theme_background"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/item_cart_count_text_size"
+            app:layout_constraintEnd_toEndOf="@id/viewProfileCartButton"
+            app:layout_constraintStart_toEndOf="@id/viewProfileCartButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="23" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
