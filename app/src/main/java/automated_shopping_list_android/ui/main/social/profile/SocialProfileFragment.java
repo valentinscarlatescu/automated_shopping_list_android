@@ -40,8 +40,6 @@ public class SocialProfileFragment extends Fragment {
 
     private Unbinder unbinder;
     private User user;
-    private ProfileCartsAdapter profileCartsAdapter = new ProfileCartsAdapter();
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
     private CartService cartService = RetrofitClient.getRetrofitInstance().create(CartService.class);
 
@@ -116,7 +114,6 @@ public class SocialProfileFragment extends Fragment {
         socialProfileLastNameText.setText(user.lastName);
         socialProfileGenderText.setText(user.gender == null ? "" : getString(user.gender.getName()));
         socialProfileJoinDateTextView.setText(String.format(userJoinDateFormat, user.joinDateTime.format(dateTimeFormatter)));
-        socialProfileCartsNumberTextView.setText(String.format(cartsNumberFormat, user.cartsNumber == null ? "0" : user.cartsNumber));
-
+        socialProfileCartsNumberTextView.setText(String.format(cartsNumberFormat, user.cartsNumber));
     }
 }

@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.Session;
-import automated_shopping_list_android.ui.main.cart.CartTabFragment;
+import automated_shopping_list_android.ui.main.home.HomeTabFragment;
 import automated_shopping_list_android.ui.main.profile.ProfileTabFragment;
 import automated_shopping_list_android.ui.main.social.SocialTabFragment;
 import butterknife.BindView;
@@ -26,11 +26,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isTwiceClicked;
-    private AppTab appTab = AppTab.CART;
+    private AppTab appTab = AppTab.HOME;
     private Map<AppTab, TabFragment> fragments = new ArrayMap<>(4);
 
     {
-        fragments.put(AppTab.CART, new CartTabFragment());
+        fragments.put(AppTab.HOME, new HomeTabFragment());
         fragments.put(AppTab.SOCIAL, new SocialTabFragment());
         fragments.put(AppTab.PROFILE, new ProfileTabFragment());
     }
@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.mainMenuCart:
-                    if (appTab != AppTab.CART) {
-                        openTab(AppTab.CART);
-                        appTab = AppTab.CART;
+                case R.id.mainMenuHome:
+                    if (appTab != AppTab.HOME) {
+                        openTab(AppTab.HOME);
+                        appTab = AppTab.HOME;
                     }
                     break;
                 case R.id.mainMenuSocial:

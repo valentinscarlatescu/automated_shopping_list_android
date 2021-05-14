@@ -17,6 +17,6 @@ public class Cart {
     @SerializedName("dateTime")
     public LocalDateTime dateTime;
     @SerializedName("productsNumber")
-    public Integer productsNumber;
+    public int productsNumber;
 
 }

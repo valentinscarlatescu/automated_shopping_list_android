@@ -16,4 +16,6 @@
     <color name="colorHint">#80FFFFFF</color>
 
     <color name="colorCountBackground">#909090</color>
+    <color name="colorCartBackground">#EEE</color>
+    <color name="colorProductBackground">#EEE</color>
 </resources>

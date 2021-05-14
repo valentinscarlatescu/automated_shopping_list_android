@@ -169,6 +169,8 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
+                    Toast.makeText(AuthActivity.this, getString(R.string.message_success), Toast.LENGTH_LONG).show();
+
                     RegisterFragment registerFragment = (RegisterFragment) adapter.getItem(1);
                     registerFragment.clearFields();
 

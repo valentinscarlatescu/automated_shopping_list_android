@@ -20,7 +20,7 @@ public class PicassoAuthInterceptor implements Interceptor {
         Session session = Session.getInstance();
         JWT token = new JWT(session.getToken());
 
-        if (!token.isExpired(1)) {
+        if (!token.isExpired(1000)) {
             Request modifiedRequest = mainRequest.newBuilder()
                     .addHeader("Authorization", "Bearer " + session.getToken())
                     .build();

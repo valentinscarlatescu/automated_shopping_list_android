@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SocialFragment extends Fragment implements UsersAdapter.UserClickListener {
+public class SocialFragment extends Fragment implements SocialUsersAdapter.UserClickListener {
 
     @BindView(R.id.socialSearchView)
     SearchView searchView;
@@ -42,7 +42,7 @@ public class SocialFragment extends Fragment implements UsersAdapter.UserClickLi
 
     private Unbinder unbinder;
     private List<User> users;
-    private UsersAdapter usersAdapter = new UsersAdapter();
+    private SocialUsersAdapter socialUsersAdapter = new SocialUsersAdapter();
     private UserService userService = RetrofitClient.getRetrofitInstance().create(UserService.class);
 
     @Nullable
@@ -55,15 +55,15 @@ public class SocialFragment extends Fragment implements UsersAdapter.UserClickLi
         decoration.setDrawable(separator);
 
         recyclerView.addItemDecoration(decoration);
-        recyclerView.setAdapter(usersAdapter);
+        recyclerView.setAdapter(socialUsersAdapter);
 
         userService.getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful()) {
                     SocialFragment.this.users = response.body();
-                    usersAdapter.setUsers(SocialFragment.this.users);
-                    usersAdapter.setOnUserClickListener(SocialFragment.this);
+                    socialUsersAdapter.setUsers(SocialFragment.this.users);
+                    socialUsersAdapter.setOnUserClickListener(SocialFragment.this);
                 }
             }
 
@@ -82,16 +82,16 @@ public class SocialFragment extends Fragment implements UsersAdapter.UserClickLi
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText == null || newText.isEmpty()) {
-                    usersAdapter.setUsers(users);
+                    socialUsersAdapter.setUsers(users);
                 } else {
                     List<User> newUsers = users.stream()
                             .filter(user -> user.firstName != null && user.lastName != null &&
                                     (user.firstName.toLowerCase().contains(newText.toLowerCase()) ||
                                             user.lastName.toLowerCase().contains(newText.toLowerCase())))
                             .collect(Collectors.toList());
-                    usersAdapter.setUsers(newUsers);
+                    socialUsersAdapter.setUsers(newUsers);
                 }
-                usersAdapter.notifyDataSetChanged();
+                socialUsersAdapter.notifyDataSetChanged();
                 return true;
             }
         });

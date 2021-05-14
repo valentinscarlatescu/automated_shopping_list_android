@@ -2,7 +2,7 @@ package automated_shopping_list_android.ui.main;
 
 public enum AppTab {
 
-    CART(0),
+    HOME(0),
     SOCIAL(1),
     PROFILE(2);
 
@@ -19,7 +19,7 @@ public enum AppTab {
     public static AppTab getByIndex(int id) {
         switch (id) {
             default:
-                return CART;
+                return HOME;
             case 1:
                 return SOCIAL;
             case 2:

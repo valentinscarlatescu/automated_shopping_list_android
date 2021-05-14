@@ -23,6 +23,6 @@ public class User {
     @SerializedName("imagePath")
     public String imagePath;
     @SerializedName("cartsNumber")
-    public Integer cartsNumber;
+    public int cartsNumber;
 
 }

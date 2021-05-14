@@ -11,8 +11,10 @@
     <string name="button_login">Login</string>
     <string name="button_logout">Logout</string>
     <string name="button_view_carts">View carts</string>
+    <string name="button_add_product">Add product</string>
+    <string name="button_validate">Validate</string>
 
-    <string name="menu_item_cart">Cart</string>
+    <string name="menu_item_home">Home</string>
     <string name="menu_item_social">Social</string>
     <string name="menu_item_admin">Admin</string>
     <string name="menu_item_profile">Profile</string>
@@ -22,7 +24,7 @@
     <string name="message_invalid_password">Invalid password</string>
     <string name="message_invalid_email">Invalid email</string>
     <string name="message_back_twice">Press back again to exit</string>
-    <string name="message_success">Success</string>
+    <string name="message_success">Success \u2713</string>
 
     <string name="profile_user_id">ID: %1$s</string>
     <string name="profile_user_email">Email: %1$s</string>
@@ -44,8 +46,20 @@
     <string name="product_price_weight">Average price: $%s/100g</string>
     <string name="product_category">Category: %s</string>
     <string name="product_carts_number">Preferred in: %s carts</string>
+    <string name="product_additional_info">Additional info: %s</string>
     <string name="product_name">Name: %s</string>
-    <string name="home_header">Add a popular product to your cart!</string>
     <string name="most_popular_products">Most popular products</string>
+    <string name="rec_product_popularity_info">%s appears in %d carts</string>
+    <string name="rec_product_content_info">%s appears along with the selected products in %d carts</string>
+    <string name="rec_product_already_in_cart">%s is already in cart</string>
+    <string name="rec_product_added_in_cart">%s added \u2713</string>
+    <string name="my_cart">My cart</string>
+    <string name="cart_empty">Cart empty</string>
+
+    <string name="header_home">Add a popular product to your cart!</string>
+    <string name="header_categories">Categories</string>
+    <string name="header_carts">Carts</string>
+    <string name="header_products">Products</string>
+    <string name="recommendations">Recommendations</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package automated_shopping_list_android.ui.main.cart;
+package automated_shopping_list_android.ui.main.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,21 @@ import androidx.annotation.Nullable;
 
 import automated_shopping_list_android.ui.main.TabFragment;
 
-public class CartTabFragment extends TabFragment {
+public class HomeTabFragment extends TabFragment {
 
-    private CartFragment cartFragment;
+    private HomeFragment homeFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cartFragment = new CartFragment();
+        homeFragment = new HomeFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        setInitialFragment(cartFragment);
+        setInitialFragment(homeFragment);
         return view;
     }
 

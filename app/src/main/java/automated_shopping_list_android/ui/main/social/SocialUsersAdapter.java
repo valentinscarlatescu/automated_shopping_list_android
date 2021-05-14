@@ -17,7 +17,7 @@ import automated_shopping_list_android.net.model.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
+public class SocialUsersAdapter extends RecyclerView.Adapter<SocialUsersAdapter.UserViewHolder> {
 
     private List<User> users;
     private UserClickListener listener;

@@ -22,7 +22,7 @@ public class AuthInterceptor implements Interceptor {
 
         String token = Session.getInstance().getToken();
         JWT jwt = new JWT(token);
-        if (!jwt.isExpired(1)) {
+        if (!jwt.isExpired(1000)) {
             Request newRequest = mainRequest.newBuilder()
                     .header("Authorization", "Bearer " + token)
                     .build();

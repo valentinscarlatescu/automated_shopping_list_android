@@ -12,6 +12,8 @@ public class ProductCategory {
     public String name;
     @SerializedName("imagePath")
     public String imagePath;
+    @SerializedName("productsNumber")
+    public int productsNumber;
 
     @Override
     public boolean equals(Object o) {

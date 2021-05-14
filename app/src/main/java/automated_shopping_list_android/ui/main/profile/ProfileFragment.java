@@ -256,6 +256,7 @@ public class ProfileFragment extends Fragment {
         user.lastName = sessionUser.lastName;
         user.gender = sessionUser.gender;
         user.joinDateTime = sessionUser.joinDateTime;
+        user.cartsNumber = sessionUser.cartsNumber;
 
         String password = requireActivity().getApplicationContext()
                 .getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE)
@@ -269,7 +270,7 @@ public class ProfileFragment extends Fragment {
         lastNameEditText.setText(user.lastName);
         genderTextView.setText(user.gender == null ? "" : getString(user.gender.getName()));
         joinDateTextView.setText(String.format(userJoinDateFormat, user.joinDateTime.format(dateTimeFormatter)));
-        cartsNumberTextView.setText(String.format(cartsNumberFormat, user.cartsNumber == null ? "0" : user.cartsNumber));
+        cartsNumberTextView.setText(String.format(cartsNumberFormat, user.cartsNumber));
 
         bitmap = null;
         cameraImageUri = null;

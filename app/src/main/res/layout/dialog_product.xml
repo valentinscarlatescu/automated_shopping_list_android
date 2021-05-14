@@ -13,63 +13,70 @@
     android:padding="20dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/dialogProfileCartProductCardView"
+        android:id="@+id/dialogProductDetailsCardView"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginBottom="25dp"
-        android:elevation="10dp"
         app:cardCornerRadius="60dp"
         app:cardPreventCornerOverlap="false">
 
         <ImageView
-            android:id="@+id/dialogProfileCartProductImageView"
+            android:id="@+id/dialogProductDetailsImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
             android:scaleType="centerCrop"
-            tools:src="@android:drawable/alert_dark_frame" />
+            tools:src="@drawable/item_placeholder_padding" />
 
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/dialogProfileCartProductNameTextView"
+        android:id="@+id/dialogProductDetailsNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:text="Name: Apple" />
 
     <TextView
-        android:id="@+id/dialogProfileCartProductCategoryTextView"
+        android:id="@+id/dialogProductDetailsCategoryTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:text="Category: fruits" />
 
     <TextView
-        android:id="@+id/dialogProfileCartProductPriceTextView"
+        android:id="@+id/dialogProductDetailsPriceTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:text="Price: $15/unit" />
 
     <TextView
-        android:id="@+id/dialogProfileCartProductCartsNumberTextView"
+        android:id="@+id/dialogProductDetailsCartsNumberTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         tools:text="Preferred in: 23 carts" />
+
+    <TextView
+        android:id="@+id/dialogProductDetailsAdditionalInfoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="Additional info: Test" />
 
 </LinearLayout>

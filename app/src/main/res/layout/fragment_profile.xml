@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="85dp">
+        android:paddingBottom="80dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,6 @@
                 android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:elevation="10dp"
                 app:cardCornerRadius="80dp"
                 app:cardPreventCornerOverlap="false">
 
@@ -218,33 +217,36 @@
                 android:textSize="@dimen/profile_text_size"
                 tools:text="Carts number: 23" />
 
-            <Button
-                android:id="@+id/profileViewCartsButton"
-                style="@android:style/Widget.DeviceDefault.TextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/button_background"
-                android:gravity="center"
-                android:text="@string/button_view_carts"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size" />
-
-            <Button
-                android:id="@+id/profileLogoutButton"
-                style="@android:style/Widget.DeviceDefault.TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/button_background"
-                android:gravity="center"
-                android:text="@string/button_logout"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/button_text_size" />
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/profileViewCartsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:backgroundTint="@android:color/white"
+                    android:src="@drawable/icon_cart"
+                    android:tint="@color/colorPrimary"
+                    app:fabCustomSize="@dimen/fab_size"
+                    app:maxImageSize="@dimen/fab_image_size" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/profileLogoutButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:backgroundTint="@android:color/white"
+                    android:src="@drawable/icon_logout"
+                    android:tint="@color/colorPrimary"
+                    app:fabCustomSize="@dimen/fab_size"
+                    app:maxImageSize="@dimen/fab_image_size" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

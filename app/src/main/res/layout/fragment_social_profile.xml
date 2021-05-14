@@ -12,7 +12,6 @@
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:elevation="10dp"
         app:cardCornerRadius="60dp"
         app:cardPreventCornerOverlap="false">
 
@@ -90,18 +89,18 @@
         android:textSize="@dimen/profile_text_size"
         tools:text="Carts number: 23" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/socialProfileViewCartsButton"
-        style="@android:style/Widget.DeviceDefault.TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/button_background"
-        android:gravity="center"
-        android:text="@string/button_view_carts"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/button_text_size" />
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/white"
+        android:src="@drawable/icon_cart"
+        android:tint="@color/colorPrimary"
+        app:fabCustomSize="@dimen/fab_size"
+        app:maxImageSize="@dimen/fab_image_size" />
 
 </LinearLayout>

@@ -5,13 +5,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 import automated_shopping_list_android.R;
 import automated_shopping_list_android.net.ImageHandler;
 import automated_shopping_list_android.net.model.Product;
@@ -21,29 +21,39 @@ import butterknife.ButterKnife;
 
 public class ProductDialog extends Dialog {
 
-    @BindView(R.id.dialogProfileCartProductImageView)
+    @BindView(R.id.dialogProductDetailsImageView)
     ImageView imageView;
-    @BindView(R.id.dialogProfileCartProductNameTextView)
+    @BindView(R.id.dialogProductDetailsNameTextView)
     TextView nameTextView;
-    @BindView(R.id.dialogProfileCartProductCategoryTextView)
+    @BindView(R.id.dialogProductDetailsCategoryTextView)
     TextView categoryTextView;
-    @BindView(R.id.dialogProfileCartProductPriceTextView)
+    @BindView(R.id.dialogProductDetailsPriceTextView)
     TextView priceTextView;
-    @BindView(R.id.dialogProfileCartProductCartsNumberTextView)
+    @BindView(R.id.dialogProductDetailsCartsNumberTextView)
     TextView cartsNumberTextView;
+    @BindView(R.id.dialogProductDetailsAdditionalInfoTextView)
+    TextView additionalInfoTextView;
+
 
     @BindString(R.string.product_name)
-    String productName;
+    String productNameFormat;
     @BindString(R.string.product_category)
-    String productCategory;
+    String productCategoryFormat;
     @BindString(R.string.product_carts_number)
-    String cartsNumber;
+    String cartsNumberFormat;
+    @BindString(R.string.product_additional_info)
+    String additionalInfoFormat;
 
     private Product product;
+    private String additionalInfo;
 
     public ProductDialog(@NonNull Context context, Product product) {
         super(context);
         this.product = product;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 
     @Override
@@ -53,11 +63,17 @@ public class ProductDialog extends Dialog {
         ButterKnife.bind(this);
 
         ImageHandler.loadImage(imageView, product.imagePath, getContext().getDrawable(R.drawable.item_placeholder_padding));
-        nameTextView.setText(String.format(productName, product.name));
+        nameTextView.setText(String.format(productNameFormat, product.name));
 
-        categoryTextView.setText(String.format(productCategory, product.productCategory.name));
+        categoryTextView.setText(String.format(productCategoryFormat, product.productCategory.name));
         priceTextView.setText(String.format(getContext().getString(product.quantityType.getName()), product.averagePrice));
-        cartsNumberTextView.setText(String.format(cartsNumber, product.cartsNumber));
+        cartsNumberTextView.setText(String.format(cartsNumberFormat, product.cartsNumber));
+
+        if (additionalInfo != null) {
+            additionalInfoTextView.setText(String.format(additionalInfoFormat, additionalInfo));
+        } else {
+            additionalInfoTextView.setVisibility(View.GONE);
+        }
 
         Window window = getWindow();
         if (window != null) {
