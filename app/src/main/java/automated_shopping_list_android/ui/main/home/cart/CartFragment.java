@@ -200,29 +200,13 @@ public class CartFragment extends Fragment implements CartProductsAdapter.CartPr
                 if (response.isSuccessful()) {
 
                     currentUser.cartsNumber++;
+                    products.clear();
 
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        int size = products.size();
-                        for (int i = 0; i < size; i++) {
-                            handler.postDelayed(() -> {
-                                products.remove(0);
-                                cartProductsAdapter.notifyItemRemoved(0);
-                                cartProductsNumberTextView.setText(String.valueOf(products.size()));
+                    updateView();
+                    removeRecommendations();
 
-                                if (products.isEmpty()) {
-                                    handler.post(() -> {
-
-                                        Toast.makeText(getContext(), getString(R.string.message_success), Toast.LENGTH_LONG).show();
-                                        updateView();
-                                        removeRecommendations();
-                                        progressDialog.dismiss();
-
-                                    });
-                                }
-                            }, i * 500);
-                        }
-                    }, 500);
+                    Toast.makeText(getContext(), getString(R.string.message_success), Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
 
                 } else {
                     Toast.makeText(getContext(), ErrorHandler.getServerError(response), Toast.LENGTH_LONG).show();
